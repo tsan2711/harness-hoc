@@ -23,7 +23,7 @@ Phương gõ đúng một chữ "oke" vào phiên mới. Hoá đơn ghi **46.000
 | Danh sách agent | 3.852 | |
 | Bối cảnh phiên | 3.260 | |
 | MEMORY.md (chỉ mục bộ nhớ) | ~4.065 | |
-Tổng phần đo được ≈ 56k ký tự; phần còn lại của 46k token là **system prompt và định nghĩa công cụ** (không nằm trong các tệp đính kèm, không đo trực tiếp được ở đây).
+Tổng phần đo được ≈ 60k ký tự (MEMORY.md có thể đã nằm sẵn trong "chỉ dẫn" nên cộng hơi dư); phần còn lại của 46k token là **system prompt và định nghĩa công cụ** (không nằm trong các tệp đính kèm, không đo trực tiếp được ở đây).
 
 **Token tiếng Việt:** câu trả lời tiếng Việt (trộn markdown/đường dẫn) của chính phiên này: 900 ký tự = 545 token → **~1,65–1,72 ký tự/token**. Tiếng Anh thường ~4 ký tự/token. Nghĩa là cùng một ý tiếng Việt tốn gấp **~2–2,5 lần** token so với tiếng Anh (mã nguồn và đường dẫn nằm giữa). Đáp án mục 2(b): **kém hơn** (đắt hơn).
 
