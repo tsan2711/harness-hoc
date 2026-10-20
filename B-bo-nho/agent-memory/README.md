@@ -12,5 +12,6 @@
 | 05e | [Graph-RAG](05e-graph-rag.md) — GraphRAG, HippoRAG, SPRIG; một bước vs nhiều bước | bài khái niệm của 05 |
 | 05f | [Kiến thức cũ và thay thế](05f-ky-uc-cu-va-thay-the.md) — bitemporal, STALE, lan truyền | bài khái niệm của 05 |
 | 05g | [Đo truy hồi](05g-do-truy-hoi.md) — recall@k, cỡ mẫu, rò rỉ, thí nghiệm công bằng | bài khái niệm của 05 |
+| 06 | [Kiến trúc memory đề xuất](06-kien-truc-de-xuat.md) — nguyên tắc, sơ đồ đọc/ghi, bảng edges, pha P0–P4 + cổng đo, việc chờ chốt | kết quả của 05 |
 
 Phương án áp cho công ty: `~/Documents/GitHub/Unity/Seriously/docs/shared/memory-options.md`.
