@@ -12,3 +12,7 @@ Mỗi bài: **một câu chuyện** → **chỗ dừng để tự nghĩ** (khôn
 | 05 | Scale: 1 agent → nhiều agent → cả công ty | chưa |
 | 06 | Đo: nhớ tốt hay tệ thì đo bằng gì | chưa |
 
+
+## Tham khảo sâu
+
+[agent-memory/](agent-memory/README.md) — 4 bài cũ (viết trước khuôn mới): cách agent nhớ, các lớp trí nhớ, leftover.py, tìm kiếm BM25/vector/hybrid/KG/graph-RAG. Bài 03 "Truy hồi" sẽ dựa vào agent-memory/04.
