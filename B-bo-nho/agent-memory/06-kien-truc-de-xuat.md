@@ -71,7 +71,7 @@ Doc cũ **không cần sửa**: cạnh `supersedes` lưu ở doc mới; recall t
 | `supersedes` doc→doc | frontmatter | nhãn + đẩy bản mới; lan truyền |
 | `scope` doc→unit/game | frontmatter, đường dẫn (`depts/x`, `June/`) | lọc cùng tồn tại |
 
-Không có graph DB, không LLM trích. Hub (`CLAUDE.md`, `kit.sh`) bị hạ trọng số khi mở rộng (như IDF).
+**Bảng `edges` chính là knowledge graph** (nút = doc/file/việc/commit/game, cạnh có nhãn), dựng tất định — dùng ngay từ P2 cho thay thế, lan truyền và mở rộng 1 bước. Thứ còn để thí nghiệm ở P4 là *graph-RAG* (graph quyết định bước tìm). Không có graph DB, không LLM trích. Hub (`CLAUDE.md`, `kit.sh`) bị hạ trọng số khi mở rộng (như IDF).
 
 ### 2.2 Đường đọc
 1. **Hook `UserPromptSubmit` → `recall.py prompt-hint`** (mới): lấy câu của Bi, bỏ câu < 4 từ / lệnh (`làm tiếp`, `/…`), gọi `search()` **không** gọi `index()` (index nặng; để SessionStart/hook commit lo), in ≤ 3 đoạn nếu điểm vượt ngưỡng, không thì im. Ngân sách < 150 ms, timeout 2 s, lỗi = im.
