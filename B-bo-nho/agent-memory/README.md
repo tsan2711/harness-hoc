@@ -15,3 +15,19 @@
 | 06 | [Kiến trúc memory đề xuất](06-kien-truc-de-xuat.md) — nguyên tắc, sơ đồ đọc/ghi, bảng edges, pha P0–P4 + cổng đo, việc chờ chốt | kết quả của 05 |
 
 Phương án áp cho công ty: `~/Documents/GitHub/Unity/Seriously/docs/shared/memory-options.md`.
+
+## Đang viết — chuỗi 07: hiểu hết kiến trúc đề xuất (bài 06)
+
+Mỗi mảnh của bài 06 thành một bài, viết theo `CACH-HOC.md` (chuyện → dừng 30 giây → các cách + chỗ gãy → bảng → scale → Seriously → 4 nền tảng → tóm tắt). Đọc theo thứ tự:
+
+| Bài | Mảnh kiến trúc | Khái niệm cần có |
+|---|---|---|
+| 07a | Nguyên tắc: 0 token, git là nguồn sự thật, chỉ mục dựng lại được | nguồn sự thật vs cache, tất định, H-10 |
+| 07b | Đường đọc **đẩy**: hook `UserPromptSubmit`, claim, mở phiên | hook Claude Code, push vs pull, ngân sách ms/token, ngưỡng im lặng |
+| 07c | Frontmatter `status/supersedes/scope/keywords` | metadata, schema, suy ngược cạnh |
+| 07d | Bảng `edges` = knowledge graph tất định | dựng cạnh từ git/link/trailer, hub, truy vấn đệ quy SQLite |
+| 07e | Luật xếp hạng sau khi tìm | chuỗi luật, nhãn đầu dòng, vì sao không hạ hạng theo ngày |
+| 07f | Đường ghi: hook nhắc, lan truyền, lint | PostToolUse, nhắc ≠ chặn, cascade, ossification |
+| 07g | Thước đo mới: held-out, multi, stale; chỉ số dùng thật | (dựa 05g) bộ đo như hợp đồng |
+| 07h | Lộ trình pha + cổng: vì sao P0 trước, luật thắng đặt trước | gate, ablation, rollback qua `layers.toml` |
+| 07i | NER (Bi hỏi 2026-10-20) | regex vs model nhỏ vs LLM; NER ≠ gộp thực thể ≠ quan hệ |
