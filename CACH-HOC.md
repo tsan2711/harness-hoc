@@ -8,3 +8,12 @@
 6. **Dừng lần hai** gắn vào Seriously: chỉ file thật trong repo để tự mở kiểm chứng.
 7. **4 nền tảng** Windows · Mac · iOS · Android (giống/khác).
 8. Tóm tắt một dòng + bài sau + thuật ngữ. Một bài ≤ ~10 phút đọc.
+
+## Luật viết cho người ngoài (Bi, 2026-10-21 — áp từ chuỗi 07)
+
+1. **Không giả định gì.** Mỗi thuật ngữ giải thích ở lần đầu bằng lời thường + ví dụ đời thường; không dùng tên nội bộ (`kit`, phòng,
+   inbox, claim, chốt, mã phương án…) trong phần chính.
+2. **Phần chính là tổng quát**, ví dụ trung tính (một nhóm nhỏ + trợ lý AI, một wiki công ty…).
+3. **Dự án thật chỉ ở cuối bài**, trong khung "Ví dụ thật: Seriously làm thế này" — thay cho mục 6 ở trên; bỏ qua vẫn hiểu bài.
+4. **Mỗi bài chỉ dùng khái niệm của bài trước.** Đầu bài "Bạn đã biết: …", cuối bài "Giờ bạn biết thêm: …".
+5. Giữ khuôn 1–8 ở trên; ≤ 10 phút/bài.
