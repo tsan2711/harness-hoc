@@ -13,6 +13,11 @@ Mỗi bài: **một câu chuyện** → **chỗ dừng để tự nghĩ** (khôn
 | 06 | Đo: nhớ tốt hay tệ thì đo bằng gì | chưa |
 
 
+## Triển khai trí nhớ — tự chọn kiến trúc (2026-10-21)
+
+[trien-khai/](trien-khai/README.md) — 21 bài, từ "model không nhớ" tới trí nhớ quy trình, trí nhớ trong trọng số, nhiều agent; **không bênh
+kiến trúc nào**, ba kịch bản khác nhau (trợ lý cá nhân · chatbot cửa hàng · agent code). Thay cho bài 02–06 dự kiến ở bảng trên.
+
 ## Tham khảo sâu
 
 [agent-memory/](agent-memory/README.md) — 4 bài cũ (viết trước khuôn mới): cách agent nhớ, các lớp trí nhớ, leftover.py, tìm kiếm BM25/vector/hybrid/KG/graph-RAG. Bài 03 "Truy hồi" sẽ dựa vào agent-memory/04.
