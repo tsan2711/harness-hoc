@@ -22,32 +22,32 @@ Khác với [agent-memory/ chuỗi 07](../agent-memory/README.md): chuỗi 07 d�
 |---|---|---|---|
 | **Phần 1 — Nền** ||||
 | 01 | [Model không nhớ](01-model-khong-nho.md) | LLM là hàm không trạng thái; ngữ cảnh, token; ba chỗ chứa trí nhớ; vòng ghi → quản lý → đọc | viết rồi |
-| 02 | Bản đồ lựa chọn | ba trục: nhớ bao lâu · lưu bằng gì · ai điều khiển; bốn loại nội dung (đang làm / sự kiện / sự thật / cách làm) | chưa |
+| 02 | [Bản đồ lựa chọn](02-ban-do-lua-chon.md) | ba trục: nhớ bao lâu · lưu bằng gì · ai điều khiển; bốn loại nội dung (đang làm / sự kiện / sự thật / cách làm) | viết rồi |
 | **Phần 2 — Chưa cần kho ngoài** ||||
-| 03 | Nhét hết vào ngữ cảnh | ngữ cảnh dài, "lạc ở giữa", cache prompt, khi nào thế là đủ | chưa |
-| 04 | Tóm tắt và nén | tóm cuốn chiếu, nén khi đầy, xoá kết quả công cụ cũ; mất gì khi tóm | chưa |
+| 03 | [Nhét hết vào ngữ cảnh](03-nhet-het-vao-ngu-canh.md) | ngữ cảnh dài, "lạc ở giữa", cache prompt, khi nào thế là đủ | viết rồi |
+| 04 | [Tóm tắt và nén](04-tom-tat-va-nen.md) | tóm cuốn chiếu, nén khi đầy, xoá kết quả công cụ cũ; mất gì khi tóm | viết rồi |
 | **Phần 3 — Lưu ở đâu** ||||
-| 05 | File ghi chú | file hướng dẫn, thư mục trí nhớ agent tự sửa; người đọc được, git được | chưa |
-| 06 | Bảng có cấu trúc | hồ sơ người dùng, cột/khoá, SQL; nhanh và chính xác cho câu đã biết trước | chưa |
-| 07 | Kho vector | embedding, chia đoạn, tìm gần đúng; đọc theo nghĩa | chưa |
-| 08 | Đồ thị tri thức | thực thể + quan hệ + thời gian hiệu lực | chưa |
+| 05 | [File ghi chú](05-file-ghi-chu.md) | file hướng dẫn, thư mục trí nhớ agent tự sửa; người đọc được, git được | viết rồi |
+| 06 | [Bảng có cấu trúc](06-bang-co-cau-truc.md) | hồ sơ người dùng, cột/khoá, SQL; nhanh và chính xác cho câu đã biết trước | viết rồi |
+| 07 | [Kho vector](07-kho-vector.md) | embedding, chia đoạn, tìm gần đúng; đọc theo nghĩa | viết rồi |
+| 08 | [Đồ thị tri thức](08-do-thi-tri-thuc.md) | thực thể + quan hệ + thời gian hiệu lực | viết rồi |
 | **Phần 4 — Tìm lại** ||||
-| 09 | Tìm theo chữ | chỉ mục ngược, BM25; mã, tên riêng | chưa |
-| 10 | Tìm theo nghĩa | diễn đạt lại, đa ngôn ngữ; chọn model embedding | chưa |
-| 11 | Lai và xếp lại | trộn điểm (RRF), reranker, để agent tự tìm nhiều vòng | chưa |
-| 12 | Đi theo đồ thị | nhiều bước, GraphRAG, HippoRAG; giá của việc dựng đồ thị | chưa |
+| 09 | [Tìm theo chữ](09-tim-theo-chu.md) | chỉ mục ngược, BM25; mã, tên riêng | viết rồi |
+| 10 | [Tìm theo nghĩa](10-tim-theo-nghia.md) | diễn đạt lại, đa ngôn ngữ; chọn model embedding | viết rồi |
+| 11 | [Lai và xếp lại](11-lai-va-xep-lai.md) | trộn điểm (RRF), reranker, để agent tự tìm nhiều vòng | viết rồi |
+| 12 | [Đi theo đồ thị](12-di-theo-do-thi.md) | nhiều bước, GraphRAG, HippoRAG; giá của việc dựng đồ thị | viết rồi |
 | **Phần 5 — Ai điều khiển** ||||
-| 13 | Ai quyết ghi gì | người khai · luật cố định · LLM trích tự động · agent tự gọi công cụ | chưa |
-| 14 | Ai quyết khi nào đọc | agent tự kéo · hệ thống tự đẩy · trộn; ngân sách thời gian/token | chưa |
-| 15 | Cập nhật, mâu thuẫn, quên | thêm/sửa/xoá, thời gian hiệu lực, phai theo thời gian, độ quan trọng, gộp/suy ngẫm | chưa |
+| 13 | [Ai quyết ghi gì](13-ai-quyet-ghi-gi.md) | người khai · luật cố định · LLM trích tự động · agent tự gọi công cụ | viết rồi |
+| 14 | [Ai quyết khi nào đọc](14-ai-quyet-khi-nao-doc.md) | agent tự kéo · hệ thống tự đẩy · trộn; ngân sách thời gian/token | viết rồi |
+| 15 | [Cập nhật, mâu thuẫn, quên](15-cap-nhat-mau-thuan-quen.md) | thêm/sửa/xoá, thời gian hiệu lực, phai theo thời gian, độ quan trọng, gộp/suy ngẫm | viết rồi |
 | **Phần 6 — Nâng cao** ||||
-| 16 | Trí nhớ cách làm | kỹ năng, học từ lần làm hỏng, thư viện kỹ năng | chưa |
-| 17 | Trí nhớ trong trọng số | fine-tune, LoRA, học liên tục; khi nào đáng | chưa |
-| 18 | Nhiều người, nhiều agent | phạm vi, chia sẻ, quyền, riêng tư, quyền được xoá | chưa |
-| 19 | Đo | LoCoMo, LongMemEval, tranh cãi số tự báo; tự xây bộ đo cho mình | chưa |
+| 16 | [Trí nhớ cách làm](16-tri-nho-cach-lam.md) | kỹ năng, học từ lần làm hỏng, thư viện kỹ năng | viết rồi |
+| 17 | [Trí nhớ trong trọng số](17-tri-nho-trong-trong-so.md) | fine-tune, LoRA, học liên tục; khi nào đáng | viết rồi |
+| 18 | [Nhiều người, nhiều agent](18-nhieu-nguoi-nhieu-agent.md) | phạm vi, chia sẻ, quyền, riêng tư, quyền được xoá | viết rồi |
+| 19 | [Đo](19-do.md) | LoCoMo, LongMemEval, tranh cãi số tự báo; tự xây bộ đo cho mình | viết rồi |
 | **Phần 7 — Chọn** ||||
-| 20 | Chọn kiến trúc | cây quyết định theo bài toán; 6 kiến trúc mẫu, ai hợp cái nào | chưa |
-| 21 | Hệ thống thật trên bản đồ | ChatGPT, Claude Code, Cursor, Letta, Mem0, Zep, Seriously… đặt lên bản đồ bài 02 | chưa |
+| 20 | [Chọn kiến trúc](20-chon-kien-truc.md) | bảy câu hỏi về bài toán → khối xây; bắt đầu nhỏ, nâng theo số đo; ba kiến trúc mẫu | viết rồi |
+| 21 | [Hệ thống thật trên bản đồ](21-he-thong-that.md) | ChatGPT, Claude Code, Cursor, Letta, Mem0, Zep, Seriously… đặt lên bản đồ bài 02 | viết rồi |
 
 ## Nguồn khung chung
 

@@ -133,4 +133,4 @@ phải được đặt lên mặt bàn ngữ cảnh có giới hạn. Có ba ch�
 **Giờ bạn biết thêm:** "trí nhớ" của agent thật ra là bài toán gì, ba chỗ nó có thể nằm, và vì sao ba kịch bản Mai / cửa hàng Lá / nhóm
 code sẽ cần ba lời giải khác nhau.
 
-**Bài sau:** 02 — Bản đồ lựa chọn (chưa viết).
+**Bài sau:** [02 — Bản đồ lựa chọn](02-ban-do-lua-chon.md).

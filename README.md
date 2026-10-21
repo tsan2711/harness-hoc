@@ -11,7 +11,7 @@ nhiều cách làm + ưu/nhược/điểm gãy → bảng so sánh → scale →
 | Chặng | Chủ đề | Bài dự kiến | Trạng thái |
 |---|---|---|---|
 | **A** | Nền: [A01](A-nen/01-vong-lap-agent.md) · [b vòng lặp](A-nen/01b-sau-vong-lap.md) · [c công cụ](A-nen/01c-sau-cong-cu.md) · [d hook](A-nen/01d-sau-cong-hook.md) · [A02](A-nen/02-ngu-canh-va-tien.md) · [b cache](A-nen/02b-sau-ngu-canh.md) · [c nền+token](A-nen/02c-sau-nen-va-token.md) · [d nén](A-nen/02d-sau-nen-ngu-canh.md) · [lab/](A-nen/lab/) | vòng lặp · ngữ cảnh · tiền | **xong 8 bài** |
-| **B** | [Bộ nhớ](B-bo-nho/README.md) | tổ chức · tool call cho bộ nhớ · truy hồi · ghi/quên · scale · đo | **bài 01 xong** |
+| **B** | [Bộ nhớ](B-bo-nho/README.md) | tổ chức · tool call cho bộ nhớ · truy hồi · ghi/quên · scale · đo | **triển khai: 21 bài xong** |
 | **C** | Công cụ: tool call, MCP, mô tả công cụ | tool call từ gốc · viết mô tả để model chọn đúng · MCP · quyền | chưa |
 | **D** | Hook & cổng kiểm chứng | nhắc vs chặn · pre-commit · "xong giả" · kiểm Unity không mở Editor | chưa |
 | **E** | Nhiều phiên song song | vì sao giẫm chân · worktree · claim/WORKBOARD · gom-tất-cả | chưa |
