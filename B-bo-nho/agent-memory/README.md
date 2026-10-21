@@ -16,18 +16,21 @@
 
 Phương án áp cho công ty: `~/Documents/GitHub/Unity/Seriously/docs/shared/memory-options.md`.
 
-## Đang viết — chuỗi 07: hiểu hết kiến trúc đề xuất (bài 06)
+## Chuỗi 07 — hiểu hết kiến trúc đề xuất (bài 06)
 
-Mỗi mảnh của bài 06 thành một bài, viết theo `CACH-HOC.md` (chuyện → dừng 30 giây → các cách + chỗ gãy → bảng → scale → Seriously → 4 nền tảng → tóm tắt). Đọc theo thứ tự:
+Mỗi mảnh của bài 06 thành một bài, viết theo `CACH-HOC.md`, số đo lấy từ repo Seriously ngày 2026-10-21. Đọc theo thứ tự:
 
-| Bài | Mảnh kiến trúc | Khái niệm cần có |
+| Bài | Mảnh kiến trúc | Khái niệm |
 |---|---|---|
-| 07a | Nguyên tắc: 0 token, git là nguồn sự thật, chỉ mục dựng lại được | nguồn sự thật vs cache, tất định, H-10 |
-| 07b | Đường đọc **đẩy**: hook `UserPromptSubmit`, claim, mở phiên | hook Claude Code, push vs pull, ngân sách ms/token, ngưỡng im lặng |
-| 07c | Frontmatter `status/supersedes/scope/keywords` | metadata, schema, suy ngược cạnh |
-| 07d | Bảng `edges` = knowledge graph tất định | dựng cạnh từ git/link/trailer, hub, truy vấn đệ quy SQLite |
-| 07e | Luật xếp hạng sau khi tìm | chuỗi luật, nhãn đầu dòng, vì sao không hạ hạng theo ngày |
-| 07f | Đường ghi: hook nhắc, lan truyền, lint | PostToolUse, nhắc ≠ chặn, cascade, ossification |
-| 07g | Thước đo mới: held-out, multi, stale; chỉ số dùng thật | (dựa 05g) bộ đo như hợp đồng |
-| 07h | Lộ trình pha + cổng: vì sao P0 trước, luật thắng đặt trước | gate, ablation, rollback qua `layers.toml` |
-| 07i | NER (Bi hỏi 2026-10-20) | regex vs model nhỏ vs LLM; NER ≠ gộp thực thể ≠ quan hệ |
+| [07a](07a-nguyen-tac-git-nguon-su-that.md) | Nguyên tắc: 0 token, git là nguồn sự thật, chỉ mục dựng lại được | nguồn sự thật vs cache, tất định, H-10; dựng lại 28,6 s / 20k đoạn |
+| [07b](07b-duong-doc-day.md) | Đường đọc **đẩy**: hook `UserPromptSubmit`, claim, mở phiên | push vs pull, ngân sách ms/token, ngưỡng im lặng; search ấm 33–70 ms, nguội 1,1 s |
+| [07c](07c-frontmatter.md) | Frontmatter `status/supersedes/scope/keywords` | metadata, schema, `none` ≠ thiếu, suy ngược cạnh; ca `trap-art` |
+| [07d](07d-bang-edges.md) | Bảng `edges` = knowledge graph tất định | cạnh từ git/link/trailer, hub (WORKBOARD 102 commit), CTE đệ quy, cạnh thưa (6 % có `Task:`) |
+| [07e](07e-luat-xep-hang.md) | Luật xếp hạng sau khi tìm | xô điểm, chuỗi luật có thứ tự, nhãn đầu dòng, không hạ hạng theo ngày |
+| [07f](07f-duong-ghi.md) | Đường ghi: hook nhắc, lan truyền, lint | PostToolUse, nhắc ≠ chặn, cascade 1 bước, ossification |
+| [07g](07g-thuoc-do.md) | Thước đo mới: held-out, multi, stale; chỉ số dùng thật | rò rỉ, recall@3 vs @12, so từng câu, bộ đo như hợp đồng |
+| [07h](07h-lo-trinh-pha-va-cong.md) | Lộ trình pha + cổng | P0 trước, luật thắng đặt trước, ablation, `crutch-test` + `layers.toml` |
+| [07i](07i-ner.md) | NER (Bi hỏi 2026-10-20) | regex / gazetteer / model nhỏ / LLM; NER ≠ gộp thực thể ≠ trích quan hệ |
+
+Sửa so với bài 06 (phát hiện khi viết 07): đường **mở phiên có việc dở** đã có từ 2026-10-16 (`leftover.recall_line()`, `78bb4ec05`);
+trailer `Task:` đã tự gắn khi claim (`safe_commit.py`).
