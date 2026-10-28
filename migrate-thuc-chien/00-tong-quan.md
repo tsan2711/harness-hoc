@@ -162,3 +162,4 @@ Migrate thành công không nhờ thêm trí thông minh, mà nhờ **đo đúng
 | doc2query | lúc ghi, cho model đoán sẵn "người ta sẽ hỏi gì về đoạn này" rồi lưu kèm |
 | claim | một mệnh đề có ngày bắt đầu/hết hiệu lực; cái cũ được đóng ngày chứ không xoá |
 | cổng | điều kiện số phải đạt mới sang bước sau |
+| nghi cũ | nhãn "có thể đã lỗi thời" dán lên tài liệu B khi thứ B dựa vào (A) vừa sửa mà B chưa sửa theo; máy tìm B bằng cách đi ngược mũi tên "B dựa vào A". Ví dụ: sửa `SwarmPrototype.cs` → GDD trích nó bị nghi cũ. Chuẩn gọi là *stale detection / impact analysis* |
