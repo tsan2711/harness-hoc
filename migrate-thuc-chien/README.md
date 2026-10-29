@@ -12,7 +12,7 @@ Mỗi bài: chuyện ngắn → dừng 30 giây → một mạch nhân quả (b�
 | 01 | [Đo đúng thứ agent thấy: hit@3, MRR, McNemar, Wilson, tất định](01-do-dung-thu-agent-thay.md) · [lab](lab/01_do_recall.py) | xong |
 | 02 | [Tên riêng, bí danh và cặp âm tiết tiếng Việt](02-ten-rieng-va-am-tiet.md) · [lab](lab/02_am_tiet.py) | xong |
 | 03 | [Bake sẵn: doc2query, khoá băm, ước token trước](03-bake-san-doc2query.md) · [lab](lab/03_bake_san.py) | xong |
-| 04 | Trộn nhiều kho: RRF và hạn ngạch | chưa |
+| 04 | [Trộn nhiều kho: RRF và hạn ngạch](04-tron-nhieu-kho-rrf.md) · [lab](lab/04_rrf.py) | xong |
 | 05 | Invalidation: nghi cũ, false sharing, ID ổn định | chưa |
 | 06 | Chuyển nhà: lớp phủ symlink vs submodule vs monorepo | chưa |
 | 07 | Lỗi chuyển nhà: đường dẫn 2 mặt, biến môi trường rò | chưa |
