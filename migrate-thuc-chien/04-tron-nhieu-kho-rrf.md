@@ -178,7 +178,9 @@ Ba cơ chế, mỗi cái giải một chuyện:
    trả về, phần còn lại để cho sổ tay hai phòng. Trong code đây là **trần** cho một kho, không phải mức tối thiểu cho kho khác. Tác dụng
    gần như nhau khi kho kia có hàng, khác nhau khi kho kia rỗng (chỗ thừa bị bỏ trống thay vì nhường lại). Kèm hạn ngạch, câu liên phòng
    trúng 33 → 47 % (bài 00).
-3. **Sàn ở bước chọn kho.** Trước khi tìm, một bộ luật tất định (bậc 1) chọn danh sách kho; một model (bậc 2) có thể gợi ý thêm.
+3. **Sàn ở bước chọn kho (đã có code, chưa nối).** Thiết kế: trước khi tìm, một bộ luật tất định (bậc 1) chọn danh sách kho; một model
+   (bậc 2) có thể gợi ý thêm. Hàm dưới đây có trong `memhub.py` nhưng **chưa nơi nào gọi**: `ask()` hiện chỉ dùng danh sách kho của
+   bậc 1. Đọc nó như bản thiết kế đã viết thành code, chưa phải hành vi đang chạy.
 
    ```python
    def merge_tiers(tier1, tier2, extra_cap=2):
@@ -216,7 +218,7 @@ Hệ quả vận hành:
 | **RRF có trọng số, k riêng mỗi lượt** | ưu tiên lượt đáng tin, lượt phụ chỉ lấp chỗ | thêm núm → phải quét lưới, dễ khớp đề | `recall.search` (1/1 + 1/3), `memhub.rrf_merge` |
 | Viết lại truy vấn + RRF | 0 token | vô ích khi lượt phụ tương quan với lượt chính | `search_fused`, tắt (`RECALL_FUSE=1`) |
 | Hạn ngạch / xen kẽ theo kho | không kho nào chiếm hết L1 | kho kia rỗng thì chỗ bỏ trống | `XDEPT_QUOTA` |
-| Sàn khi chọn kho | phần tất định không bị model gỡ | model không sửa được luật sai | `merge_tiers` |
+| Sàn khi chọn kho | phần tất định không bị model gỡ | model không sửa được luật sai | `merge_tiers`: đã có code, chưa nối |
 | Model xếp hạng lại (*reranker*) | xếp lại chuẩn nhất | tốn token mỗi lần hỏi; chỉ xếp lại thứ đã lọt top N | chưa (luật 0 token mỗi prompt) |
 
 Hệ ngoài: Elasticsearch và OpenSearch đều có *hybrid search*: chạy một lượt BM25 và một lượt vector (*embedding*), rồi trộn. Cả hai
@@ -251,7 +253,7 @@ RRF là ~15 dòng, không cấp phát gì lớn, tất định. Phần đắt l�
    - **Thang điểm**: cộng điểm thô đẩy đáp án xuống hạng 5; RRF đưa lên hạng 2 mà không cần biết điểm.
    - **Hằng k**: bảng điểm theo hạng với k = 1, 3, 5, 60; một ca từ khoá tụt từ hạng 1 xuống hạng 3 khi k = 5.
    - **Lưới W × K**: para@3 tăng theo W, cũ↑ bật lên 1; chỉ một ô vừa có para tốt vừa giữ cũ↑ = 0.
-   - **Hạn ngạch + sàn**: xen kẽ tự nhiên khi k = 1, trần 2 chỗ cho kho commit, `merge_tiers` chép nguyên từ repo.
+   - **Hạn ngạch + sàn**: xen kẽ tự nhiên khi k = 1, trần 2 chỗ cho kho commit, `merge_tiers` chép nguyên từ repo (ở repo: đã có code, chưa nối).
 2. Trong Seriously: `RECALL_BIGRAM_W=0 python3 tools/claude/recall_eval.py` rồi chạy lại với `RECALL_BIGRAM_W=2`. So dòng `para @3` và
    dòng `trap` / cũ↑, rồi tự giải thích vì sao cấu hình mặc định là 1.
 

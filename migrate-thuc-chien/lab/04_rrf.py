@@ -105,7 +105,7 @@ print('  top 6, M2 tối đa 2 chỗ :', rrf_merge(stores, PER, 6, quota={'M2': 
 print('  Thử: xoá M3 khỏi PER (phòng hỏi chưa có sổ tay) rồi xem top 3 có bao nhiêu commit, có và không có quota.')
 
 
-def merge_tiers(tier1, tier2, extra_cap=2):   # chép nguyên từ memhub.py
+def merge_tiers(tier1, tier2, extra_cap=2):   # chép nguyên từ memhub.py (ở repo: đã có code, chưa nơi nào gọi)
     return list(tier1) + [s for s in dict.fromkeys(tier2 or []) if s not in tier1][:extra_cap]
 
 
