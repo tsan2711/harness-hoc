@@ -13,10 +13,10 @@ Mỗi bài: chuyện ngắn → dừng 30 giây → một mạch nhân quả (b�
 | 02 | [Tên riêng, bí danh và cặp âm tiết tiếng Việt](02-ten-rieng-va-am-tiet.md) · [lab](lab/02_am_tiet.py) | xong |
 | 03 | [Bake sẵn: doc2query, khoá băm, ước token trước](03-bake-san-doc2query.md) · [lab](lab/03_bake_san.py) | xong |
 | 04 | [Trộn nhiều kho: RRF và hạn ngạch](04-tron-nhieu-kho-rrf.md) · [lab](lab/04_rrf.py) | xong |
-| 05 | Invalidation: nghi cũ, false sharing, ID ổn định | chưa |
-| 06 | Chuyển nhà: lớp phủ symlink vs submodule vs monorepo | chưa |
-| 07 | Lỗi chuyển nhà: đường dẫn 2 mặt, biến môi trường rò | chưa |
-| 08 | Cổng định kỳ: lệnh kiểm phải biết trả sai | chưa |
+| 05 | [Invalidation: nghi cũ, false sharing, ID ổn định](05-invalidation-nghi-cu.md) · [lab](lab/05_nghi_cu.py) | xong |
+| 06 | [Chuyển nhà: lớp phủ symlink, submodule hay monorepo](06-chuyen-nha-symlink.md) · [lab](lab/06_chuyen_nha.py) | xong |
+| 07 | [Lỗi chuyển nhà: đường dẫn hai mặt, biến môi trường rò](07-loi-chuyen-nha.md) · [lab](lab/07_duong_dan_env.py) | xong |
+| 08 | [Cổng định kỳ: lệnh kiểm phải biết trả sai](08-cong-dinh-ky.md) · [lab](lab/08_cong.py) | xong |
 
 Nguồn (repo riêng, không công khai): `docs/shared/knowledge-graph-design.md` §10, `tools/harness/r11-cutover.md`,
 `tools/harness/d7-2026-10-28.md`, `company/state/evals/memory-gates/latest.md`.

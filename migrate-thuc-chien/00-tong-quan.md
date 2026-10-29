@@ -73,7 +73,7 @@ và kho commit chỉ được giữ tối đa 2 chỗ (*hạn ngạch*, một tr
 *ngược* mũi tên tìm mọi B và dán nhãn **nghi cũ**, giống ghi vào một cache line thì các bản sao của line đó ở core khác bị đánh invalid.
 
 **Vấn đề: báo động giả.** Lúc đầu có **82** cảnh báo nghi cũ, gần hết là sai, nên người ta thôi đọc. Nguyên nhân giống **false sharing**:
-một loại mũi tên ("hay được sửa cùng nhau") nối quá rộng, sửa một chỗ thì cả cụm bị đánh invalid dù nội dung chẳng liên quan.
+một loại mũi tên (`refs`, "có nhắc tới") nối quá rộng, sửa một chỗ thì cả cụm bị đánh invalid dù nội dung chẳng liên quan.
 
 **Sửa.** Bỏ loại mũi tên đó khỏi việc lan nhãn (vẫn giữ để tìm kiếm). 82 → **2**, và cả 2 đều đúng.
 
