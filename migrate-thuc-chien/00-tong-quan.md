@@ -61,7 +61,7 @@ Có 4 ý nghe hợp lý để para tìm tốt hơn. Cả 4 đều được đo b
 tài liệu, nên BM25 khớp được, mà lúc hỏi vẫn 0 token. Ba ý kia làm phần *đoán* lúc hỏi, mỗi lần một lần, lại đoán sai.
 
 **Sửa nhỏ cho ý trộn.** Trộn theo *thứ hạng* thay vì điểm thô (**RRF**: mỗi kho xếp hạng riêng, hạng 1 của kho nào cũng ngang nhau),
-và mỗi kho được giữ tối thiểu 2 chỗ (*hạn ngạch*). Câu liên phòng 33 → 47 %. Giống chia băng thông: không để một kho chiếm hết 3 chỗ L1.
+và kho commit chỉ được giữ tối đa 2 chỗ (*hạn ngạch*, một trần, xem bài 04). Câu liên phòng 33 → 47 %. Giống chia băng thông: không để một kho chiếm hết 3 chỗ L1.
 
 **Giá.** Doc2query gọi model, nên trước khi bật đã *ước* token: 0,42M, thật hết 0,40M. Lần thí điểm trước đó không ước nên lệch ×5.
 
