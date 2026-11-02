@@ -9,7 +9,7 @@ Mỗi bài: chuyện ngắn → dừng 30 giây → một mạch nhân quả (b�
 | # | Bài | Trạng thái |
 |---|---|---|
 | 00 | [Toàn cảnh: trí nhớ agent là một hệ cache, 5 bước nối nhau](00-tong-quan.md) | xong (viết lại 10-28) |
-| 01 | [Đo đúng thứ agent thấy: hit@3, MRR, McNemar, Wilson, tất định](01-do-dung-thu-agent-thay.md) · [lab](lab/01_do_recall.py) | xong |
+| 01 | [Cái thước đo trí nhớ: hit@3, MRR, so cặp, đủ câu, tất định](01-do-dung-thu-agent-thay.md) · [lab](lab/01_do_recall.py) | xong (viết lại 11-02) |
 | 02 | [Tên riêng, bí danh và cặp âm tiết tiếng Việt](02-ten-rieng-va-am-tiet.md) · [lab](lab/02_am_tiet.py) | xong |
 | 03 | [Bake sẵn: doc2query, khoá băm, ước token trước](03-bake-san-doc2query.md) · [lab](lab/03_bake_san.py) | xong |
 | 04 | [Trộn nhiều kho: RRF và hạn ngạch](04-tron-nhieu-kho-rrf.md) · [lab](lab/04_rrf.py) | xong |
