@@ -16,7 +16,7 @@ nhiều cách làm + ưu/nhược/điểm gãy → bảng so sánh → scale →
 | **B++** | [Migrate thực chiến](migrate-thuc-chien/README.md) | tổng quan sau migrate · đo @3 · bí danh · nghi cũ · RRF · doc2query/claim · tách repo · lỗi chuyển nhà · cổng | **3 bài xong** (00–02) |
 | **I** | [Kỹ năng thời AI](ky-nang-thoi-ai/README.md) | 12 bài: kiến trúc & hiệu năng engine · eval · bảo mật agent · sản phẩm indie | **12 bài xong** |
 | **C** | Công cụ: tool call, MCP, mô tả công cụ | tool call từ gốc · viết mô tả để model chọn đúng · MCP · quyền | chưa |
-| **D** | Hook & cổng kiểm chứng: [D01 cổng không thuộc về agent](D-hook-cong/01-cong-khong-thuoc-ve-agent.md) | nhắc vs chặn · pre-commit · "xong giả" · kiểm Unity không mở Editor | **1 bài xong** |
+| **D** | Hook & cổng kiểm chứng: [D01 cổng không thuộc về agent](D-hook-cong/01-cong-khong-thuoc-ve-agent.md) · [D02 bốn lớp context/transcript/tóm tắt/memory](D-hook-cong/02-bon-lop-context-transcript-tom-tat-memory.md) | nhắc vs chặn · pre-commit · "xong giả" · kiểm Unity không mở Editor | **2 bài xong** |
 | **E** | Nhiều phiên song song | vì sao giẫm chân · worktree · claim/WORKBOARD · gom-tất-cả | chưa |
 | **F** | Tổ chức & giao việc | công ty agent · hộp thư · dispatch tự chạy · nghiệm thu | chưa |
 | **G** | Đo & tự nâng cấp | eval · cadence · friction log · nạng vs bền | chưa |
