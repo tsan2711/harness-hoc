@@ -9,7 +9,7 @@ Quy ước nguồn: `[official]` = docs/staff Unity; `[forum]` = trả lời di�
 | 1 | [IL, metadata và RyuJIT: từ C# tới asm](01-il-va-jit.md) | viết |
 | 2 | [Mono vs IL2CPP vs CoreCLR trong Unity (6.7 → 7.0)](02-mono-il2cpp-coreclr.md) | viết |
 | 3 | [Burst + LLVM: đọc IR, aliasing, vectorization](03-burst-llvm.md) | viết |
-| 4 | GC & bộ nhớ managed/native: Boehm vs generational compacting, pinning, interop, ALC reload | chưa |
+| 4 | [GC & bộ nhớ managed/native: Boehm vs generational compacting, pinning, interop, ALC reload](04-gc-bo-nho-managed-native.md) | viết |
 | 5 | NativeAOT / ILC / trimming — vì sao nó là họ hàng của IL2CPP, không phải của Mono | chưa |
 
 ## Trục 2 — DOTS/ECS ở mức cơ chế
