@@ -1,6 +1,6 @@
 # Engine core — lộ trình cho principal (thay thế hướng "kỹ năng thời AI" ở mảng engine)
 
-Bắt đầu 2026-11-23. Đối tượng: đã senior→principal, không cần giải thích "cache là gì". Mỗi bài: **mô hình cơ chế → bằng chứng đọc được (IL / asm / LLVM IR / profiler) → điểm gãy → quyết định kiến trúc → thí nghiệm có số đo**.
+Bắt đầu 2026-11-23. Đối tượng: đã senior→principal, không cần giải thích "cache là gì". Mỗi bài: **mô hình cơ chế → bằng chứng đọc được (IL / asm / LLVM IR / mô phỏng) → điểm gãy → quyết định kiến trúc → thí nghiệm có số đo**.
 Quy ước nguồn: `[official]` = docs/staff Unity; `[forum]` = trả lời diễn đàn, chưa xác thực vai trò; `[?]` = suy luận/chưa kiểm — **đừng dựa vào**. Ngày tra: 2026-11-23, Unity đang đổi nhanh, kiểm lại trước khi quyết định.
 
 ## Trục 1 — Từ C# đến máy (runtime stack)

@@ -1,0 +1,26 @@
+# 8 lớp, 0 = gần camera nhất, 7 = xa nhất
+kind,mode,dz,last_drawn_layer
+Opaque,auto,0.1,2
+Opaque,auto,2,2
+Opaque,auto,20,2
+Opaque,auto,100,2
+Opaque,b2f,0.1,0
+Opaque,b2f,2,0
+Opaque,b2f,20,0
+Opaque,b2f,100,0
+Opaque,f2bsort,0.1,2
+Opaque,f2bsort,2,2
+Opaque,f2bsort,20,7
+Opaque,f2bsort,100,7
+Cutout,auto,0.1,2
+Cutout,auto,2,2
+Cutout,auto,20,2
+Cutout,auto,100,2
+Cutout,b2f,0.1,0
+Cutout,b2f,2,0
+Cutout,b2f,20,0
+Cutout,b2f,100,0
+Cutout,f2bsort,0.1,2
+Cutout,f2bsort,2,2
+Cutout,f2bsort,20,7
+Cutout,f2bsort,100,7

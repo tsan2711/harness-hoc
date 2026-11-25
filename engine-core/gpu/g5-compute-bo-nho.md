@@ -15,7 +15,7 @@ Cùng số phép toán. Trên GPU, câu hỏi đầu tiên không phải "bao nh
 - 16 bin cho 4M thread = tranh chấp cực đại trên vài địa chỉ: atomic bị tuần tự hoá.
 - Threadgroup memory = scratchpad on-chip cho một nhóm; mẫu chuẩn: **gom cục bộ → barrier → ghi gộp**. Nó là nền của prefix sum, radix sort, culling, light binning (G10).
 - Barrier đúng phạm vi: `threadgroup_barrier(mem_threadgroup)` chỉ đồng bộ trong nhóm; phụ thuộc giữa hai dispatch là việc của API/encoder.
-- Cảnh báo portability: tài liệu best practice của Arm cho Mali nói shared memory nằm trong bộ nhớ hệ thống qua cache, không phải RAM on-chip riêng (đối chiếu bản cho đúng thế hệ); lợi ích ở đây không tự chuyển sang — trên Mali, phần đáng giữ là **giảm tranh chấp atomic**. Đo trên máy đích.
+- Cảnh báo: lợi ích của shared memory phụ thuộc kiến trúc GPU; ở kiến trúc không có RAM on-chip riêng, phần đáng giữ là **giảm tranh chấp atomic**.
 
 ## Chẩn đoán (tình huống dựng)
 **Triệu chứng:** bầy 200k hạt mô phỏng compute, 11 ms; ALU của kernel rất nhỏ.

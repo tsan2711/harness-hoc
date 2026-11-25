@@ -17,7 +17,7 @@ Cùng công shading, ngắt pass đắt gấp ~4×. Lần đo trước (cách đ
 ## Cơ chế
 - GPU tile-based chia màn hình thành ô nhỏ: pha 1 xử lý hình học và xếp tam giác vào tile; pha 2 shade từng tile trong **bộ nhớ on-chip** (nhanh, rẻ điện), xong mới ghi ra DRAM.
 - Mỗi render pass: `loadAction` quyết định có đọc DRAM vào tile không (`load` = đọc; `clear`/`dontCare` = không), `storeAction` quyết định có ghi ra không.
-- Ngắt pass = store toàn bộ attachment rồi load lại. Trên mobile, bandwidth còn là **nhiệt và pin**.
+- Ngắt pass = store toàn bộ attachment rồi load lại. Bandwidth còn tốn **điện và sinh nhiệt**.
 - MSAA trên tile GPU resolve được ngay trong tile (store = resolve, attachment MSAA `memoryless`) ⇒ rẻ hơn nhiều so với trực giác desktop. Depth không ai đọc lại ⇒ `dontCare`/`memoryless`.
 
 ## Thứ làm vỡ pass trong engine
@@ -25,7 +25,7 @@ Cùng công shading, ngắt pass đắt gấp ~4×. Lần đo trước (cách đ
 
 ## Chẩn đoán (tình huống dựng)
 **Triệu chứng:** thêm hiệu ứng gợn nước, GPU +6 ms trên điện thoại dù mặt nước chiếm 5 % màn hình.
-**Điều tra:** capture (Xcode / AGI) → thấy pass chính bị cắt làm đôi, có store + load toàn màn hình và một blit copy màu.
+**Điều tra:** liệt kê các pass và load/store action (đọc code dựng RenderGraph) → thấy pass chính bị cắt làm đôi, có store + load toàn màn hình và một blit copy màu.
 **Bằng chứng:** chi phí không tỉ lệ với diện tích nước ⇒ không phải shading.
 **Quyết định (theo thứ tự rẻ):** lấy màu từ bản downsample đã có; hoặc framebuffer fetch (đọc pixel hiện tại ngay trong tile — chỉ đúng khi không cần pixel lân cận); hoặc dời hiệu ứng để dùng chung điểm ngắt pass đã tồn tại.
 

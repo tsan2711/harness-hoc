@@ -39,7 +39,7 @@ struct Integrate : IJobParallelFor {
 ## 6. Thí nghiệm
 1. Chọn job thật nóng nhất. Mở Inspector, chụp Assembly + Optimized IR, ghi: độ rộng vector, có `vfmadd`?, số load/store/phần tử.
 2. Thêm `Loop.ExpectVectorized()`. Nếu fail: tìm nguyên nhân trong diagnostics, sửa (layout/alias/float mode), ghi lại.
-3. Đo p50/p99 job time (`Profiler` windowed) trước/sau, ghi băng thông ước tính = byte đọc+ghi / thời gian → so với băng thông RAM máy (M-series ~100+ GB/s; PC DDR5 vài chục GB/s/kênh) để biết **compute-bound hay memory-bound**.
+3. Đo p50/p99 job time (đồng hồ trong code, chạy windowed) trước/sau, ghi băng thông ước tính = byte đọc+ghi / thời gian → so với băng thông RAM máy (M-series ~100+ GB/s; PC DDR5 vài chục GB/s/kênh) để biết **compute-bound hay memory-bound**.
 4. `log.md`: roofline thô của job đó.
 
 ## 7. Đọc thêm

@@ -28,7 +28,7 @@
 ## 3. Boehm trong Unity — hệ quả thực hành
 - **Bảo thủ ⇒ giữ nhầm**: một số nguyên/giá trị rác trên stack có thể trùng địa chỉ heap, giữ cả đồ thị object sống. Hiếm nhưng khó tái hiện; triệu chứng: bộ nhớ managed không về dù không còn tham chiếu.
 - **Không di chuyển** ⇒ pointer managed ổn định "ngầm", nhưng đừng dựa vào điều đó: code bạn viết chạy cả CoreCLR (di chuyển). Luôn pin tường minh.
-- **Heap phân mảnh & không co lại nhanh** `[?]`: đo bằng Memory Profiler (reserved vs used).
+- **Heap phân mảnh & không co lại nhanh** `[?]`: kiểm bằng cách mô phỏng cấp phát rồi giải phóng xen kẽ, so reserved với used (API `Profiler.GetTotalReservedMemoryLong`).
 - **Incremental GC** (Player Settings) chia mark qua nhiều frame; đổi lấy barrier + tổng thời gian dài hơn. Dùng khi spike là vấn đề, không khi throughput là vấn đề. Cũng cần **tắt** hoặc điều khiển thủ công `GarbageCollector.GCMode` quanh đoạn nhạy cảm.
 - IL2CPP vẫn Boehm cho tương lai gần `[forum]` ⇒ mọi chiến lược "gen0 rẻ nên alloc thoải mái" **sai trên iOS/console**. Chuẩn thiết kế: **zero-alloc trong hot path**, bất kể Editor.
 
@@ -51,11 +51,11 @@ Collectible `AssemblyLoadContext` chỉ unload khi **không còn tham chiếu m�
 x86-64 là **TSO** (store-store, load-load giữ thứ tự); ARM64 là **weak** (cho phép đảo thứ tự nhiều hơn). Code lock-free "chạy trên PC" có thể sai trên iPhone/Mac M-series. .NET đảm bảo `volatile`/`Interlocked`/`Volatile.Read/Write` có acquire/release đúng; C# **không tự bảo vệ** ghi thường. Trong job/Burst: dùng `Interlocked`, `Volatile`, hoặc kiến trúc không chia sẻ (mỗi worker ghi vào slice riêng + merge) — bài 7 sẽ đi tiếp. Tránh `double-checked locking` tự chế.
 
 ## 8. Thí nghiệm (đo thật, ghi `log.md`)
-**A. Live-heap vs rác/frame.** Dựng scene: giữ sống `L ∈ {50, 200, 800 MB}` object managed (mảng class có tham chiếu, không phải `byte[]` — vì byte[] không phải con trỏ để mark), mỗi frame cấp phát `G ∈ {0, 1 KB, 100 KB, 2 MB}`. Chạy windowed trên Mono player, IL2CPP player, CoreCLR desktop player (6.7, experimental). Ghi p50/p99/max frame, số GC mỗi gen (CoreCLR), thời gian GC từ Profiler. Kỳ vọng kiểm: Boehm p99 tăng theo L; CoreCLR p99 gần như phẳng theo L nhưng có spike hiếm.
+**A. Live-heap vs rác/frame.** Dựng scene: giữ sống `L ∈ {50, 200, 800 MB}` object managed (mảng class có tham chiếu, không phải `byte[]` — vì byte[] không phải con trỏ để mark), mỗi frame cấp phát `G ∈ {0, 1 KB, 100 KB, 2 MB}`. Chạy windowed trên Mono player, IL2CPP player, CoreCLR desktop player (6.7, experimental). Ghi p50/p99/max frame, số GC mỗi gen (CoreCLR), thời gian GC đo bằng đồng hồ quanh `GC.Collect`. Kỳ vọng kiểm: Boehm p99 tăng theo L; CoreCLR p99 gần như phẳng theo L nhưng có spike hiếm.
 **B. Pin độc.** Pin 10k object nhỏ sống lâu trong gen0 + alloc tải đều → đo phân mảnh (`GCMemoryInfo.FragmentedBytes`). So với cấp POH.
 **C. ALC leak.** Plugin giữ 1 static event; reload 20 lần ở Unity 7.0 alpha; đo tăng bộ nhớ và số assembly. Sửa, đo lại.
 **D. Barrier.** Hai vòng lặp 1M phần tử: struct có field `object` vs struct blittable; đo ghi.
 Kết quả mỗi thí nghiệm: 1 bảng + 1 câu "cơ chế giải thích" — nếu không giải thích được bằng mục 1–5 thì ghi là **chưa hiểu**, đừng đoán.
 
 ## 9. Đọc thêm
-dotnet/runtime `docs/design/coreclr/botr/garbage-collection.md`; Konrad Kokosa "Pro .NET Memory Management" (nặng nhưng là chuẩn); Maoni Stephens blog (kiến trúc sư GC); Boehm–Weiser "Garbage Collection in an Uncooperative Environment"; docs Unity "Incremental garbage collection" và "Memory Profiler".
+dotnet/runtime `docs/design/coreclr/botr/garbage-collection.md`; Konrad Kokosa "Pro .NET Memory Management" (nặng nhưng là chuẩn); Maoni Stephens blog (kiến trúc sư GC); Boehm–Weiser "Garbage Collection in an Uncooperative Environment"; docs Unity "Incremental garbage collection".

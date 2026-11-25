@@ -17,7 +17,7 @@ Hàng 3 là thí nghiệm bác bỏ: ép depth test chạy trước shader thì 
 ## Cơ chế
 - Rasterizer xử lý tam giác theo **quad 2×2 pixel** (để tính đạo hàm chọn mip). Tam giác nhỏ hơn vài pixel ⇒ helper lane vô ích ⇒ chi phí fragment tăng dù diện tích không đổi.
 - **Early-Z** (GPU IMR, desktop): loại fragment trước shader nếu đã bị che — chỉ hiệu quả khi vẽ gần→xa.
-- **HSR** (Apple/PowerVR; Mali có FPK, Adreno có LRZ — cơ chế khác nhau, `[?]` chi tiết): trong tile, GPU xác định fragment nào thắng **rồi mới** shade ⇒ thứ tự opaque gần như không quan trọng.
+- **HSR** (Apple/PowerVR; hãng khác có cơ chế riêng, `[?]` chi tiết): trong tile, GPU xác định fragment nào thắng **rồi mới** shade ⇒ thứ tự opaque gần như không quan trọng.
 - `discard`/alpha test: GPU không biết pixel có được ghi depth hay không trước khi chạy shader ⇒ không hoãn được ⇒ HSR/early-Z mất tác dụng. Chỉ cần **lệnh có mặt trong shader** là đủ.
 - Blend: kết quả phụ thuộc lớp dưới ⇒ mọi lớp nhìn thấy đều phải shade. Hàng gần→xa trong bảng rẻ vì depth test loại các lớp sau — nhưng blend trong suốt đúng thì phải xa→gần.
 
@@ -32,7 +32,7 @@ Hàng 3 là thí nghiệm bác bỏ: ép depth test chạy trước shader thì 
 - Depth prepass: đáng trên IMR khi fragment đắt; trên tile GPU có HSR thường là **trả thêm vertex để mua thứ đã có sẵn** — đo trước.
 
 ## Quy tắc quyết định
-Ngân sách overdraw cho mobile: đo bằng GPU capture; nếu lớp trong suốt trung bình > ~2–3 trên vùng lớn của màn hình, xử lý nội dung trước khi xử lý shader.
+Ngân sách overdraw: đo bằng mô phỏng (tăng dần số lớp phủ, xem frame time); nếu lớp trong suốt trung bình > ~2–3 trên vùng lớn của màn hình, xử lý nội dung trước khi xử lý shader.
 
 ## Bài tập
 Thêm vào lab quad lưới tam giác 4×4 px và 1×1 px phủ cùng diện tích. Giả thuyết: 1×1 px tốn ≥ 2× ở fragment. Bác bỏ nếu < 1,3×.

@@ -40,7 +40,7 @@ Trạng thái: 6.7 LTS có **CoreCLR desktop player (experimental)** + IL2CPP iO
 | Tool/package dùng `AppDomain`, `Mono.Cecil`, Mono-specific API | gãy với CoreCLR |
 | Code kiểm thử/benchmark chỉ ở Editor | Editor ≠ player nữa về cả JIT lẫn GC |
 
-## 6. Quyết định (dành cho dự án mobile/PC của Bi)
+## 6. Quyết định (cho dự án mobile/PC)
 1. **iOS/console không có JIT** → IL2CPP là đường duy nhất; mọi tối ưu "dựa PGO/tiered" chỉ có ở desktop CoreCLR. Thiết kế hot path theo mô hình **AOT + Burst**, coi CoreCLR là bonus cho Editor/PC.
 2. Hot path nên sống trong Burst/jobs (không phụ thuộc backend). Phần managed còn lại: không alloc, không LINQ, không closure.
 3. Giữ `link.xml`/`[Preserve]` và AOT-generic hint có test (build IL2CPP trong CI), vì đây là thứ gãy đầu tiên.
