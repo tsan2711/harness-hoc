@@ -1,7 +1,7 @@
 # 3. Mổ source (URP 17.5.0, đường dẫn trong `PackageCache/com.unity.render-pipelines.universal@…/Runtime/`)
 
 ## 3.1 URP bỏ sort gần→xa trên GPU có HSR
-`UniversalRenderPipeline.cs`, khoảng dòng 1673–1679:
+`UniversalRenderPipeline.cs`, khoảng dòng 1675–1680:
 
 ```csharp
 var commonOpaqueFlags = SortingCriteria.CommonOpaque;
@@ -37,7 +37,23 @@ if (cameraData.renderer.useDepthPriming && m_IsOpaque && (cameraData.renderType 
 ```
 `Auto` chỉ bật khi "recommended"; nền tảng khác phải đặt `Forced`. Cả hai còn cần: không MSAA, không deferred, không WebGL, camera đầu tiên ghi depth.
 
-## 3.4 Shader của project mô phỏng
+## 3.4 Vì sao priming cứu được cutout
+`Passes/DrawObjectsPass.cs`, ngay sau khi tạo `drawSettings` (khoảng dòng 200–204):
+
+```csharp
+if (zWriteOff)
+{
+    m_RenderStateBlock.depthState = new DepthState(false, CompareFunction.Equal);
+    m_RenderStateBlock.mask |= RenderStateMask.Depth;
+}
+```
+- `DepthState(false, …)`: pass màu **không ghi depth**. Depth đã được prepass dựng xong.
+- `CompareFunction.Equal`: chỉ fragment đúng bằng depth đã dựng mới qua.
+- `mask |= Depth`: đè trạng thái depth khai báo trong shader.
+
+Pass màu không còn phải chờ shader chạy xong mới biết depth cuối, nên test sớm loại được các lớp bị che dù shader có `clip`. Đây là cơ chế chính; mục 3.1–3.2 chỉ nói về sort.
+
+## 3.5 Shader của project mô phỏng
 ```hlsl
 float cov = Coverage(i.uv);      // alpha rẻ, tách khỏi phần đắt
 clip(cov - _Cutoff);             // chỉ khi _CUTOUT

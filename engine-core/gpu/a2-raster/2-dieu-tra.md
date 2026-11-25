@@ -1,6 +1,9 @@
 # 4. Điều tra
 
-Cách đo: build macOS, chạy có cửa sổ, tắt vsync, `FrameTimingManager`, các cấu hình xen kẽ 3 vòng. Số ghi `run4 / run5` là trung vị GPU ms trong [`../../stress/results/`](../../stress/results). Máy **không rảnh** (load 12–66, xem `load.txt`), run5 có nhiều cấu hình chỉ đủ 1/3 số mẫu. Chênh dưới ~15% ở đây coi là nhiễu.
+Cách đo: build macOS, chạy có cửa sổ, tắt vsync, `FrameTimingManager`, các cấu hình xen kẽ 3 vòng. Số ghi `run4 / run5` là trung vị GPU ms trong [`../../stress/results/`](../../stress/results). Máy **không rảnh** (load 12–66, xem `load.txt`), run5 có nhiều cấu hình chỉ thu được 1/3 đến 2/3 số mẫu; chưa lọc frame trùng. Chênh dưới ~15% ở đây coi là nhiễu.
+
+## Cảnh báo trước khi đọc số `[?]`
+Một lớp toàn màn hình tốn ~16 ms, sát chu kỳ 60 Hz (16,7 ms), và p25 nhiều cấu hình lệch xa trung vị (ví dụ 4,8 so với 15,9). Có khả năng `gpuFrameTime` ở chế độ cửa sổ gồm cả thời gian chờ màn hình, và trung vị đang trộn hai trạng thái. Chưa kiểm (cần mẫu thô và đo lại ở tần số quét khác hoặc toàn màn hình). Vì vậy: chênh lệch lớn (2–3 lần) và kết quả đầu dò dùng được; độ dốc, phần chặn và chênh vài chục phần trăm chỉ là tạm.
 
 ## Trước hết: kiểm xem phép đo có sống không
 - Cảnh rỗng: 0,048 / 0,043 ms.
@@ -32,7 +35,7 @@ Suýt sai ở đây: lần đo đầu dùng `dz = 0,1`, ra "sort không giúp g�
 | ép xa→gần (tệ nhất) | 60,5 | 63,4 |
 | 1 lớp | 16,6 | 16,2 |
 
-**Bác bỏ:** sort đúng chỉ bớt ~15–25%, vẫn hơn 2 lần giá 1 lớp. Giải thích khả dĩ `[?]`: lớp cutout chỉ ghi depth sau khi shade xong, nên các fragment chồng nhau trong cùng tile vẫn lọt qua test sớm. Số đo không phân biệt được cơ chế này với cơ chế khác.
+**Bác bỏ:** sort đúng vẫn hơn 2 lần giá 1 lớp. Phần nó bớt được (~15–25%) chỉ nhỉnh hơn nhiễu: hai cấu hình cùng thứ tự vẽ (mặc định và FrontToBack ở dz 0,1) đã lệch nhau tới ~15%. Giải thích khả dĩ `[?]`: lớp cutout chỉ ghi depth sau khi shade xong, nên các fragment chồng nhau trong cùng tile vẫn lọt qua test sớm. Số đo không phân biệt được cơ chế này với cơ chế khác.
 
 Đối chứng: opaque 16 lớp ở mọi kiểu sort đều 15–18 ms. HSR làm đúng phần của nó.
 Kiểm chéo: cutout xa→gần (60–63) ≈ additive 16 lớp (62–69), tức cả 16 lớp đều bị shade.
@@ -46,7 +49,7 @@ Kiểm chéo: cutout xa→gần (60–63) ≈ additive 16 lớp (62–69), tức
 | cutout 1 lớp | 16,6 / 16,2 | 16,9 / 19,1 |
 | opaque, xa→gần | 16,4 / 16,1 | 15,9 / 15,7 |
 
-16 lớp cutout về gần giá 1 lớp và gần như không còn phụ thuộc thứ tự. Opaque không được lợi gì. Giá phải trả không lộ ra ở đây vì chỉ có 16 object: prepass là thêm một lượt vertex và draw call.
+16 lớp cutout về gần giá 1 lớp và gần như không còn phụ thuộc thứ tự (cơ chế: [mục 3.4](1-source.md)). Opaque không được lợi gì. Giá phải trả không lộ ra ở đây vì chỉ có 16 object: prepass là thêm một lượt vertex và draw call.
 
 ## I3. Đừng đọc một điểm, đọc độ dốc
 
@@ -67,7 +70,9 @@ Từ 8 đến 32 lớp: ~2,4–2,7 ms mỗi lớp. Ngoại suy về 0 lớp ra ~
 | 400 glow, 16 vòng | 26,7 / 26,8 | 25,3 / 24,2 | 5% / 10% |
 | 400 glow, 16 vòng, render scale 0,5 | 10,9 / 10,5 | 10,0 / 10,6 | trong nhiễu |
 
-**Dự đoán "nhanh hơn 17%" bị bác bỏ** nếu tính trên cả frame. 17% chỉ áp lên phần tỷ lệ với số fragment; trừ phần chặn ~15 ms thì mức tiết kiệm quan sát được khớp về cỡ độ lớn, nhưng nhiễu quá lớn để khẳng định hơn. Đòn mạnh hơn hẳn là giảm render scale (26,7 → 10,9), đồng thời đó là phép thử "có đang nghẽn fill không": giảm pixel mà frame time giảm mạnh thì đúng.
+| 100 glow, 16 vòng | 15,6 / 18,8 | 13,7 / 16,4 | 12% / 12% |
+
+**Dự đoán "nhanh hơn 17%" không được xác nhận:** quan sát 5–13%, sát mức nhiễu. 17% là phần diện tích bớt đi, chỉ bằng phần thời gian bớt đi nếu cả frame tỷ lệ với số fragment, điều mà bảng quét lớp cho thấy là không. Cũng **không** cứu được dự đoán bằng một "phần chặn 15 ms" cố định: nhiều cấu hình chạy dưới mức đó (glow nửa độ phân giải ~11 ms, lưới 0 vòng 4–6 ms), nên phần chặn, nếu có, phụ thuộc cấu hình. Bằng chứng còn lại của I3 là render scale: 26,7 → 10,9 ms, tức frame này nhạy mạnh với số pixel.
 
 ## I4. Tam giác 2 px và quad overshading — dự đoán sai, chưa rõ vì sao
 
