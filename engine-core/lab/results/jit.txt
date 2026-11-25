@@ -1,0 +1,18 @@
+2026-11-25
+ 8:22  up  6:31, 3 users, load averages: 55.58 20.19 14.86
+== TieredPGO=1
+boxed    4,797 ms
+generic  4,176 ms
+array1   10,348 ms
+array8   210,903 ms
+sumLen   5,559 ms
+sumN     5,909 ms
+== TieredPGO=0
+boxed    41,389 ms
+generic  4,935 ms
+array1   42,241 ms
+array8   173,393 ms
+sumLen   6,173 ms
+sumN     6,274 ms
+== JitDisasm (trich)
+1970

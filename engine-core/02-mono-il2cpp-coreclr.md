@@ -11,14 +11,14 @@
 | Nền tảng | Win/macOS/Linux/Android armv7 | rộng nhất, **bắt buộc iOS & hầu hết console** | desktop Win/macOS Arm64/Linux (7.0 docs) |
 | API level | tới .NET Standard 2.1 | như vậy | `[official]` chỉ .NET Standard API level cho tới nay |
 | Ngôn ngữ | C# 9 | C# 9 | alpha: **C# 9**; mục tiêu .NET 10 / C# 14 `[official: "incrementally"]` |
-| Hot reload | domain reload, edit-and-continue | — | **ALC reload** thay domain reload |
+| Hot reload | domain reload (Unity không hỗ trợ edit-and-continue) | — | **ALC reload** thay domain reload |
 | Burst | dùng được | dùng được | dùng được (docs: "any backend") |
 
 Trạng thái: 6.7 LTS có **CoreCLR desktop player (experimental)** + IL2CPP iOS (experimental, bản "updated IL2CPP"); Editor 6.7 vẫn Mono. **Unity 7.0 alpha: CoreCLR editor, Mono bị gỡ**; docs 7000.0 chỉ liệt kê CoreCLR + IL2CPP. 7.0 chưa có ngày phát hành công khai ("We cannot commit to a public date yet"). Mục tiêu 7.0 chỉ là **performance parity** — đừng kỳ vọng nhanh hơn ngay. Kế hoạch tháng 3 (CoreCLR editor ở 6.8) đã bị thay bằng 7.0.
 
 ## 2. Hai thứ nhìn giống nhau nhưng khác bản chất
 **(a) Cùng IL, khác bộ tối ưu** (bài 1): Mono JIT (mini) < RyuJIT tiered+PGO về chất lượng code trung bình; IL2CPP = clang/MSVC trên C++ sinh ra — nghĩa là có thể inline xuyên method, loại bỏ code chết mạnh, nhưng **không** có PGO runtime và không devirtualize theo profile.
-**(b) Check an toàn bị chuyển thành code**: IL2CPP phát null-check, array-bounds, divide-by-zero tường minh trong C++; có thể tắt theo method/type bằng `[Il2CppSetOption(Option.NullChecks, false)]` (cùng `ArrayBoundsChecks`, `DivideByZeroChecks`) — đổi an toàn lấy tốc độ, chỉ nên ở hot path đã kiểm chứng. CoreCLR dựa vào guard page + bounds-check elimination của JIT.
+**(b) Check an toàn bị chuyển thành code**: IL2CPP phát null-check và array-bounds tường minh trong C++ (divide-by-zero check **mặc định tắt**); có thể tắt theo method/type bằng `[Il2CppSetOption(Option.NullChecks, false)]` (cùng `ArrayBoundsChecks`, `DivideByZeroChecks`) — đổi an toàn lấy tốc độ, chỉ nên ở hot path đã kiểm chứng. CoreCLR dựa vào guard page + bounds-check elimination của JIT.
 
 ## 3. GC — chỗ đổi lớn nhất và dễ hiểu lầm nhất
 - **Boehm**: quét **bảo thủ** (mọi từ trong stack trông giống con trỏ là root) → có thể giữ rác sống nhầm; **không di chuyển** object → pointer tới managed memory không "vỡ" nhưng **phân mảnh**; stop-the-world, có chế độ incremental của Unity (chia mark). Không có gen0 rẻ → mỗi alloc/frame đều đáng sợ.
@@ -33,7 +33,7 @@ Trạng thái: 6.7 LTS có **CoreCLR desktop player (experimental)** + IL2CPP iO
 | Rủi ro | Vì sao |
 |---|---|
 | Reflection/`Emit`/dynamic method | IL2CPP không hỗ trợ `Reflection.Emit`; stripping cần `link.xml`/`[Preserve]` |
-| Generic virtual / giá trị generic chưa thấy lúc build | IL2CPP cần instantiation tĩnh (AOT hint) |
+| Generic instantiation không thấy lúc build | Từ 2022.1 IL2CPP có full generic sharing: không crash nữa nhưng **chậm âm thầm** (tìm `_gshared`/rgctx trong `il2cppOutput`) |
 | `GCHandle`/pinning/marshalling native | CoreCLR GC di chuyển; P/Invoke & function pointer khác marshaller |
 | Thread/timing/finalizer | finalizer thread, tiered JIT warmup trên frame đầu |
 | Intel Mac x64 | không hỗ trợ ở 7.0 alpha `[secondary]` |
@@ -47,7 +47,7 @@ Trạng thái: 6.7 LTS có **CoreCLR desktop player (experimental)** + IL2CPP iO
 4. Ghi nhớ **hai ngày chưa biết**: ngày 7.0 stable, ngày IL2CPP "updated" cho từng nền tảng. Đừng khóa lộ trình vào chúng.
 
 ## 7. Thí nghiệm
-1. Cùng 1 scene benchmark (alloc nhỏ mỗi frame + 1 job Burst + 1 vòng lặp managed) chạy trên **Mono player**, **IL2CPP player**, **CoreCLR desktop player (6.7 alpha)**. Ghi: p50/p99 frame, GC.Collect count/pause (`ProfilerRecorder` "GC Reserved/Used Memory", `GC.CollectionCount`), thời gian frame đầu.
+1. Cùng 1 scene benchmark (alloc nhỏ mỗi frame + 1 job Burst + 1 vòng lặp managed) chạy trên **Mono player**, **IL2CPP player**, **CoreCLR desktop player (6.7, experimental)**. Ghi: p50/p99 frame, GC.Collect count/pause (`ProfilerRecorder` "GC Reserved/Used Memory", `GC.CollectionCount`), thời gian frame đầu.
 2. Dựng lại 1 test reflection + generic: xem cái nào gãy trên IL2CPP khi strip high.
 3. `log.md`: backend nào cho số tệ nhất ở đâu, vì cơ chế gì (GC? JIT warmup? bounds-check?).
 

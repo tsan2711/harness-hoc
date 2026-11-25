@@ -1,0 +1,27 @@
+2026-11-25
+ 8:28  up  6:37, 3 users, load averages: 31.12 47.35 33.89
+litmus fence=False: r1=r2=0 xảy ra 44/200000
+litmus fence=True: r1=r2=0 xảy ra 0/200000
+false-sharing stride=   8B: min=516 median=608 ms
+false-sharing stride=  64B: min=107 median=127 ms
+false-sharing stride= 128B: min=70 median=79 ms
+false-sharing stride= 256B: min=75 median=92 ms
+== JitDisasm luong ghi/doc
+; Assembly listing for method P+<>c__DisplayClass4_0:<Litmus>g__W|0(ubyte):this (FullOpts)
+            str     x21, [sp, #0x28]
+            ldr     w0, [x19, #0x18]
+            ldr     x0, [x19, #0x08]
+            ldr     x3, [x3]
+            str     w2, [x0, #0x04]
+            dmb     ish
+            ldr     w2, [x0]
+            str     w2, [x0, #0x0C]
+            str     w2, [x0]
+            dmb     ish
+            ldr     w2, [x0, #0x04]
+            str     w2, [x0, #0x08]
+            ldr     x0, [x19, #0x10]
+            ldr     x3, [x3]
+            ldr     w0, [x19, #0x18]
+            ldr     x21, [sp, #0x28]
+; Total bytes of code 232

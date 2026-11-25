@@ -6,7 +6,7 @@
 ## 1. Mô hình chi phí: GC trả tiền cho cái gì
 | | Boehm (Mono, IL2CPP) | CoreCLR GC |
 |---|---|---|
-| Phát hiện root | **bảo thủ**: quét stack/register, từ nào trông như con trỏ vào heap đều là root | **chính xác**: JIT sinh GC info/safepoint, biết chính xác slot nào là tham chiếu |
+| Phát hiện root | stack/register quét **bảo thủ**; object trên heap thường có GC descriptor nên quét theo kiểu, mảng không chứa tham chiếu không bị quét | **chính xác**: JIT sinh GC info/safepoint, biết chính xác slot nào là tham chiếu |
 | Di chuyển object | không | có (compact, hoặc plan "sweep" nếu phân mảnh nhẹ) |
 | Thế hệ | không (full mark mỗi lần; có chế độ incremental của Unity) | gen0/1/2 + LOH (≥ 85.000 byte) + POH |
 | Cấp phát | free-list theo size class | **bump pointer** trong allocation context ~8 KB/thread |
@@ -35,13 +35,13 @@
 ## 4. Ba tầng bộ nhớ trong một game Unity
 1. **Managed heap** (GC): object C#, string, delegate, mảng managed.
 2. **Native do bạn cấp phát** (không GC): `NativeArray/NativeList/UnsafeList…` với allocator `Temp` (≤ 1 frame/trong job, bump), `TempJob` (≈ ≤ 4 frame), `Persistent` (malloc, bạn `Dispose`), và `RewindableAllocator` (arena thủ công, kiểm tra tên/ API trong Collections của bản đang dùng). Burst và job chỉ chạm tầng này.
-3. **Native của engine** (texture, mesh, GameObject native, physics): C# chỉ giữ **wrapper** (`UnityEngine.Object` có con trỏ native `m_CachedPtr`). Hai vòng đời khác nhau: wrapper chết bởi GC, đối tượng native chết bởi `Destroy`/unload. `obj == null` bị overload để phản ánh "native đã chết" (fake null): tốn một lời gọi native và **không hoạt động với `?.`/`is null`**. Từ 6.4 `InstanceID` → **`EntityId`** `[official]` (6.5: obsolete error; 8 byte, chuẩn bị cho định danh chung UnityObject + Entity `[forum/staff]`) — không cast int, không dùng dấu, không dùng làm thứ tự tạo.
+3. **Native của engine** (texture, mesh, GameObject native, physics): C# chỉ giữ **wrapper** (`UnityEngine.Object` có con trỏ native `m_CachedPtr`). Hai vòng đời khác nhau: wrapper chết bởi GC, đối tượng native chết bởi `Destroy`/unload. `obj == null` bị overload để phản ánh "native đã chết" (fake null): tốn hơn so sánh tham chiếu thuần (chi phí chính xác tuỳ phiên bản — đo trước khi tối ưu) và **không hoạt động với `?.`/`is null`**. Từ 6.4 `InstanceID` → **`EntityId`** `[official]` (6.5: obsolete error; 8 byte, chuẩn bị cho định danh chung UnityObject + Entity `[forum/staff]`) — không cast int, không dùng dấu, không dùng làm thứ tự tạo.
 **Quy tắc kiến trúc**: mỗi dữ liệu phải thuộc đúng một tầng theo *vòng đời*, không theo thói quen. Dữ liệu nóng, số lượng lớn, tạo/huỷ theo frame → tầng 2 (hoặc ECS chunk). Dữ liệu cấu hình/ít → tầng 1. Đừng để tầng 2 giữ lại tham chiếu tầng 1.
 
 ## 5. Pinning và interop
 - `fixed`/`GCHandle.Alloc(.., Pinned)`/POH: pin trong gen0 **làm kẹt compaction** (gen0 phải "né" object bị pin → phân mảnh). Pin ngắn (trong `fixed`) rẻ; pin dài trong gen0 độc hại; pin dài thì cấp phát ở POH ngay từ đầu.
 - `UnsafeUtility.PinGCArrayAndGetDataAddress` và bạn bè: nhớ giải phóng handle; leak handle = leak object + chặn ALC unload (mục 6).
-- **P/Invoke marshalling**: blittable (int/float/struct tuần tự không tham chiếu) gần như miễn phí; string/bool/mảng non-blittable ⇒ copy/convert. **Function pointer** (`[BurstCompile] delegate*`, `FunctionPointer<T>`): giữ delegate managed sống bằng `GCHandle`, nếu không, native gọi vào delegate đã bị thu → crash.
+- **P/Invoke marshalling**: blittable (int/float/struct tuần tự không tham chiếu) gần như miễn phí; string/bool/mảng non-blittable ⇒ copy/convert. **Hai thứ khác nhau:** `FunctionPointer<T>` của Burst trỏ tới code native, không có delegate cần giữ; còn `Marshal.GetFunctionPointerForDelegate` (reverse P/Invoke) thì **phải** giữ delegate sống, nếu không native gọi vào delegate đã bị thu → crash (IL2CPP: callback static + `[MonoPInvokeCallback]`).
 - **Callback native→managed** trên thread khác: cần attach thread vào runtime; GC phải suspend thread đó ở safepoint — thread native dài hạn không "cooperate" có thể kéo dài pause.
 
 ## 6. ALC reload và rò rỉ (liên hệ bài 2)
@@ -51,7 +51,7 @@ Collectible `AssemblyLoadContext` chỉ unload khi **không còn tham chiếu m�
 x86-64 là **TSO** (store-store, load-load giữ thứ tự); ARM64 là **weak** (cho phép đảo thứ tự nhiều hơn). Code lock-free "chạy trên PC" có thể sai trên iPhone/Mac M-series. .NET đảm bảo `volatile`/`Interlocked`/`Volatile.Read/Write` có acquire/release đúng; C# **không tự bảo vệ** ghi thường. Trong job/Burst: dùng `Interlocked`, `Volatile`, hoặc kiến trúc không chia sẻ (mỗi worker ghi vào slice riêng + merge) — bài 7 sẽ đi tiếp. Tránh `double-checked locking` tự chế.
 
 ## 8. Thí nghiệm (đo thật, ghi `log.md`)
-**A. Live-heap vs rác/frame.** Dựng scene: giữ sống `L ∈ {50, 200, 800 MB}` object managed (mảng class có tham chiếu, không phải `byte[]` — vì byte[] không phải con trỏ để mark), mỗi frame cấp phát `G ∈ {0, 1 KB, 100 KB, 2 MB}`. Chạy windowed trên Mono player, IL2CPP player, CoreCLR desktop player (6.7 alpha). Ghi p50/p99/max frame, số GC mỗi gen (CoreCLR), thời gian GC từ Profiler. Kỳ vọng kiểm: Boehm p99 tăng theo L; CoreCLR p99 gần như phẳng theo L nhưng có spike hiếm.
+**A. Live-heap vs rác/frame.** Dựng scene: giữ sống `L ∈ {50, 200, 800 MB}` object managed (mảng class có tham chiếu, không phải `byte[]` — vì byte[] không phải con trỏ để mark), mỗi frame cấp phát `G ∈ {0, 1 KB, 100 KB, 2 MB}`. Chạy windowed trên Mono player, IL2CPP player, CoreCLR desktop player (6.7, experimental). Ghi p50/p99/max frame, số GC mỗi gen (CoreCLR), thời gian GC từ Profiler. Kỳ vọng kiểm: Boehm p99 tăng theo L; CoreCLR p99 gần như phẳng theo L nhưng có spike hiếm.
 **B. Pin độc.** Pin 10k object nhỏ sống lâu trong gen0 + alloc tải đều → đo phân mảnh (`GCMemoryInfo.FragmentedBytes`). So với cấp POH.
 **C. ALC leak.** Plugin giữ 1 static event; reload 20 lần ở Unity 7.0 alpha; đo tăng bộ nhớ và số assembly. Sửa, đo lại.
 **D. Barrier.** Hai vòng lặp 1M phần tử: struct có field `object` vs struct blittable; đo ghi.

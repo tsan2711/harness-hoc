@@ -25,27 +25,27 @@ stobj float3
 
 ## 3. RyuJIT (CoreCLR) — pipeline cần thuộc
 `Importer → Inliner → Morph → SSA/Value Numbering → Loop opts (hoist, clone, unroll) → CSE → Assertion prop / Range-check elimination → Lowering → LSRA (linear scan regalloc) → Codegen`.
-- **Inlining** là tối ưu quyết định nhất: heuristic theo kích thước IL, `[MethodImpl(AggressiveInlining)]`, không inline qua EH/ `try`, method có `localloc`, callvirt chưa devirtualize.
+- **Inlining** là tối ưu quyết định nhất: heuristic theo kích thước IL, `[MethodImpl(AggressiveInlining)]`, không inline qua EH/ `try`, method có `localloc` (quy tắc EH đổi theo phiên bản: .NET 10 inline được try/finally), callvirt chưa devirtualize.
 - **Tiered compilation** `[official: Microsoft docs]`: Tier0 (minopts, nhanh, không inline) → sau **30 lần gọi** + timer ~100 ms background → Tier1. **OSR** (.NET 7+) cho phép method đang chạy vòng lặp lâu vào Tier1 giữa chừng. **Dynamic PGO** (mặc định từ .NET 8): Tier0 instrumented → Tier1 dùng profile (guarded devirtualization, hot/cold layout).
-- **ReadyToRun (R2R)**: code tiền-biên-dịch, chất lượng thấp hơn Tier1, được rejit khi nóng. NativeAOT: không JIT, toàn bộ closed-world (bài 5).
+- **ReadyToRun (R2R)**: code tiền-biên-dịch, chất lượng thấp hơn Tier1, được rejit khi nóng. NativeAOT: không JIT, toàn bộ closed-world (chưa viết).
 - **Reified generics**: kiểu giá trị → code chuyên biệt cho từng instantiation; kiểu tham chiếu → **chia sẻ code canonical (`__Canon`)** + tra runtime dictionary. Hệ quả: `List<float3>` nhanh, `List<MyClass>` chia code nhưng có tra từ điển; generic virtual method chậm. IL2CPP cũng có generic sharing (xem bài 2).
-- **Bounds-check elimination**: `for (i=0;i<arr.Length;i++) arr[i]` bị loại; `i<n` với `n` không chứng minh được ≤ `Length` thì không. `Span<T>`/`ref` locals/`MemoryMarshal.GetReference` để vượt — đổi lấy an toàn.
+- **Bounds-check elimination**: `for (i=0;i<arr.Length;i++) arr[i]` bị loại; `i<n` không chứng minh được thì JIT vẫn có thể **loop cloning** (bản nhanh không check sau một lần kiểm trước vòng lặp) — số đo ở [bài 5](05-lab-cpu-doan-sai.md). `Span<T>`/`ref` locals/`MemoryMarshal.GetReference` để vượt — đổi lấy an toàn.
 
 ## 4. Điểm gãy thường gặp trong game
 | Triệu chứng | Cơ chế |
 |---|---|
 | Frame đầu chậm, rồi nhanh | Tier0 → Tier1 / JIT warmup (Mono JIT, CoreCLR); IL2CPP không có |
-| Operator nhỏ của struct không inline | Mono JIT inline kém hơn RyuJIT; trong Burst do LLVM luôn inline |
+| Operator nhỏ của struct không inline | Mono JIT inline kém hơn RyuJIT; Burst/LLVM thường inline (có ngưỡng chi phí) — xem asm |
 | `foreach` trên `List<T>` alloc | struct enumerator OK; qua `IEnumerable<T>` thì **box** |
-| Lambda/closure trong Update | compiler sinh class display + delegate → alloc mỗi lần |
+| Lambda **có capture**, hoặc method group → delegate (`Sort(Compare)`) | alloc mỗi lần (lambda không capture được Roslyn cache) |
 | Cast interface trên struct | `box` — kiểm bằng IL, không bằng cảm giác |
-| Generic constraint `where T: struct, IFoo` | `constrained. call` → không box, JIT/Burst chuyên biệt hoá |
+| Generic constraint `where T: struct, IFoo` | `constrained. callvirt` → không box, JIT/Burst chuyên biệt hoá |
 
 ## 5. Đáp án mục 2 + cách kiểm
-- Inline `op_Multiply`: Mono = có nhưng bảo thủ; RyuJIT = Tier1 có (và Tier0 không); IL2CPP = **C++ compiler** (clang/MSVC) inline sau khi il2cpp phát C++; Burst = LLVM inliner. Tức là cùng một IL, **bốn bộ tối ưu khác nhau** — benchmark ở Editor Mono **không** dự đoán được player IL2CPP.
+- Inline `op_Multiply`: Mono = có nhưng bảo thủ; RyuJIT = Tier1 có (và Tier0 không); IL2CPP = **C++ compiler** (clang/MSVC) inline sau khi il2cpp phát C++; Burst = LLVM inliner (mạnh nhưng không "luôn": có ngưỡng chi phí). Tức là cùng một IL, **bốn bộ tối ưu khác nhau** — benchmark ở Editor Mono **không** dự đoán được player IL2CPP.
 - Công cụ: **ILSpy** (tab IL), **SharpLab.io** (C# → IL → JIT asm, chọn Release), `DOTNET_JitDisasm=MethodName` (.NET 7+, chỉ với runtime thật), **Burst Inspector** (bài 3), file `.cpp` của IL2CPP (`Library/Bee/artifacts/...` hoặc thư mục build `il2cppOutput`).
 
-## 6. Thí nghiệm (Seriously/Thousandfold)
+## 6. Thí nghiệm (số đo CoreCLR đối chiếu: [bài 5](05-lab-cpu-doan-sai.md))
 1. Lấy 1 vòng lặp nóng thật. Ghi IL (ILSpy) → đánh dấu mọi `box`, `callvirt`, `ldelema`, `newobj`.
 2. Chạy cùng benchmark trên: Editor Mono, player Mono, player IL2CPP (`kit unity test --windowed`). 3 số, 1 bảng. Giải thích chênh lệch bằng IL/asm, không bằng phỏng đoán.
 3. Ghi vào `log.md`: "IL cho thấy… / số đo… / giả thuyết sai ở…".

@@ -1,0 +1,21 @@
+2026-11-25
+ 8:30  up  6:39, 3 users, load averages: 60.13 48.89 35.94
+overdraw16 opaque: 1layer=4.63 [3.15..6.19]  f2b=7.38 [7.32..10.25]  b2f=10.31 [8.97..11.75] ms (median [min..max])
+overdraw16 discard: 1layer=10.82 [9.18..12.74]  f2b=38.42 [25.68..39.58]  b2f=52.85 [51.09..57.34] ms (median [min..max])
+overdraw16 discard+earlyTests: 1layer=7.97 [6.08..9.27]  f2b=9.99 [8.33..12.26]  b2f=60.43 [49.18..61.66] ms (median [min..max])
+overdraw16 blend: 1layer=8.67 [7.08..9.66]  f2b=10.96 [7.88..12.89]  b2f=56.72 [53.47..59.14] ms (median [min..max])
+bandwidth chỉ màu, 16 draw, 1 pass: 52.14 [45.24..56.95] ms
+bandwidth chỉ màu, 16 pass x 1 draw: 212.08 [176.67..242.78] ms
+bandwidth màu + depth dontCare, 16 draw, 1 pass: 58.21 [45.06..66.28] ms
+bandwidth màu + depth dontCare, 16 pass x 1 draw: 218.54 [197.57..243.84] ms
+bandwidth màu + depth load/store, 16 draw, 1 pass: 58.32 [46.13..62.53] ms
+bandwidth màu + depth load/store, 16 pass x 1 draw: 214.19 [175.62..241.02] ms
+cpu encode n=1000 instanced=no: 0.121 ms
+cpu encode n=1000 instanced=yes: 0.007 ms
+cpu encode n=10000 instanced=no: 1.188 ms
+cpu encode n=10000 instanced=yes: 0.003 ms
+simd width=32
+diverge coherent=89.12 ms  per-lane=106.36 ms
+gather 4M sequential=2.48 ms random=38.68 ms
+histogram16 global-atomic=26.45 ms threadgroup=1.68 ms
+GPU: Apple M2

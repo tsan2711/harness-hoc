@@ -1,0 +1,20 @@
+2026-11-25
+ 8:22  up  6:31, 3 users, load averages: 55.58 20.19 14.86
+add.c:1:68: remark: vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]
+void add_may_alias(float *pos, const float *vel, float dt, int n){ for(int i=0;i<n;i++) pos[i]+=vel[i]*dt; }
+                                                                   ^
+add.c:2:84: remark: vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]
+void add_noalias(float *restrict pos, const float *restrict vel, float dt, int n){ for(int i=0;i<n;i++) pos[i]+=vel[i]*dt; }
+                                                                                   ^
+add.c:3:52: remark: the cost-model indicates that vectorization is not beneficial [-Rpass-analysis=loop-vectorize]
+float sum_strict(const float *a,int n){ float s=0; for(int i=0;i<n;i++) s+=a[i]; return s; }
+                                                   ^
+add.c:3:52: remark: interleaved loop (interleaved count: 4) [-Rpass=loop-vectorize]
+add.c:6:13: remark: vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]
+ float s=0; for(int i=0;i<n;i++) s+=a[i]; return s; }
+            ^
+add.c:7:87: remark: the cost-model indicates that vectorization is not beneficial [-Rpass-analysis=loop-vectorize]
+void gather(float *restrict o,const float *restrict a,const int *restrict idx,int n){ for(int i=0;i<n;i++) o[i]=a[idx[i]]*2; }
+                                                                                      ^
+add.c:7:87: remark: interleaved loop (interleaved count: 4) [-Rpass=loop-vectorize]
+Apple clang version 15.0.0 (clang-1500.3.9.4)

@@ -10,7 +10,10 @@ Quy ước nguồn: `[official]` = docs/staff Unity; `[forum]` = trả lời di�
 | 2 | [Mono vs IL2CPP vs CoreCLR trong Unity (6.7 → 7.0)](02-mono-il2cpp-coreclr.md) | viết |
 | 3 | [Burst + LLVM: đọc IR, aliasing, vectorization](03-burst-llvm.md) | viết |
 | 4 | [GC & bộ nhớ managed/native: Boehm vs generational compacting, pinning, interop, ALC reload](04-gc-bo-nho-managed-native.md) | viết |
-| 5 | NativeAOT / ILC / trimming — vì sao nó là họ hàng của IL2CPP, không phải của Mono | chưa |
+
+| 5 | [Lab CPU: bốn điều dễ đoán sai (số đo)](05-lab-cpu-doan-sai.md) | viết |
+
+**Track GPU & rendering (ưu tiên):** [gpu/README.md](gpu/README.md)
 
 ## Trục 2 — DOTS/ECS ở mức cơ chế
 | # | Bài | |
@@ -27,4 +30,4 @@ Quy ước nguồn: `[official]` = docs/staff Unity; `[forum]` = trả lời di�
 | 11 | Asset pipeline, import, serialization, addressables/content | chưa |
 | 12 | Nền tảng: Windows/Mac/iOS (JIT cấm trên iOS, W^X, ARM64 vs x64, 16 KB page) + tổng kết đo xuyên stack | chưa |
 
-Mỗi bài kết bằng 1 thí nghiệm trong Thousandfold/Seriously, ghi số vào `log.md`.
+Mỗi bài kết bằng 1 thí nghiệm trên lab hoặc dự án đang làm, ghi số vào `log.md`.

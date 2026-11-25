@@ -1,0 +1,208 @@
+; Assembly listing for method P:SumLen(int[]):int (Tier1)
+; Emitting BLENDED_CODE for generic ARM64 - Apple
+; Tier1 code
+; optimized code
+; optimized using Dynamic PGO
+; fp based frame
+; fully interruptible
+; with Dynamic PGO: fgCalledCount is 100
+
+G_M000_IG01:                ;; offset=0x0000
+            stp     fp, lr, [sp, #-0x10]!
+            mov     fp, sp
+ 
+G_M000_IG02:                ;; offset=0x0008
+            mov     w1, wzr
+            ldr     w2, [x0, #0x08]
+            cmp     w2, #0
+            ble     G_M000_IG05
+ 
+G_M000_IG03:                ;; offset=0x0018
+            add     x0, x0, #16
+            align   [4 bytes for IG04]
+            align   [0 bytes]
+            align   [0 bytes]
+            align   [0 bytes]
+ 
+G_M000_IG04:                ;; offset=0x0020
+            ldr     w3, [x0], #0x04
+            add     w1, w3, w1
+            sub     w2, w2, #1
+            cbnz    w2, G_M000_IG04
+ 
+G_M000_IG05:                ;; offset=0x0030
+            mov     w0, w1
+ 
+G_M000_IG06:                ;; offset=0x0034
+            ldp     fp, lr, [sp], #0x10
+            ret     lr
+ 
+; Total bytes of code 60
+; Assembly listing for method P:SumN(int[],int):int (Tier1)
+; Emitting BLENDED_CODE for generic ARM64 - Apple
+; Tier1 code
+; optimized code
+; optimized using Dynamic PGO
+; fp based frame
+; fully interruptible
+; with Dynamic PGO: fgCalledCount is 100
+
+G_M000_IG01:                ;; offset=0x0000
+            stp     fp, lr, [sp, #-0x10]!
+            mov     fp, sp
+ 
+G_M000_IG02:                ;; offset=0x0008
+            mov     w2, wzr
+            mov     w3, wzr
+            cmp     w1, #0
+            ble     G_M000_IG05
+ 
+G_M000_IG03:                ;; offset=0x0018
+            cbz     x0, G_M000_IG07
+            ldr     w4, [x0, #0x08]
+            cmp     w4, w1
+            blt     G_M000_IG07
+            add     x5, x0, #16
+            mov     x0, xzr
+            align   [4 bytes for IG04]
+            align   [4 bytes]
+            align   [4 bytes]
+            align   [4 bytes]
+ 
+G_M000_IG04:                ;; offset=0x0040
+            ldr     w4, [x5, x0]
+            add     w2, w4, w2
+            add     x0, x0, #4
+            sub     w1, w1, #1
+            cbnz    w1, G_M000_IG04
+ 
+G_M000_IG05:                ;; offset=0x0054
+            mov     w0, w2
+ 
+G_M000_IG06:                ;; offset=0x0058
+            ldp     fp, lr, [sp], #0x10
+            ret     lr
+ 
+G_M000_IG07:                ;; offset=0x0060
+            ldr     w4, [x0, #0x08]
+            add     x5, x0, #16
+ 
+G_M000_IG08:                ;; offset=0x0068
+            cmp     w3, w4
+            bhs     G_M000_IG09
+            ldr     w0, [x5, w3, UXTW #2]
+            add     w2, w0, w2
+            add     w3, w3, #1
+            cmp     w3, w1
+            blt     G_M000_IG08
+            b       G_M000_IG05
+ 
+G_M000_IG09:                ;; offset=0x0088
+            bl      CORINFO_HELP_RNGCHKFAIL
+            brk_unix #0
+ 
+; Total bytes of code 144
+; Assembly listing for method P:SumLen(int[]):int (Tier1)
+; Emitting BLENDED_CODE for generic ARM64 - Apple
+; Tier1 code
+; optimized code
+; optimized using Dynamic PGO
+; fp based frame
+; fully interruptible
+; with Dynamic PGO: fgCalledCount is 18
+
+G_M000_IG01:                ;; offset=0x0000
+            stp     fp, lr, [sp, #-0x10]!
+            mov     fp, sp
+ 
+G_M000_IG02:                ;; offset=0x0008
+            mov     w1, wzr
+            ldr     w2, [x0, #0x08]
+            cmp     w2, #0
+            ble     G_M000_IG05
+ 
+G_M000_IG03:                ;; offset=0x0018
+            add     x0, x0, #16
+            align   [4 bytes for IG04]
+            align   [0 bytes]
+            align   [0 bytes]
+            align   [0 bytes]
+ 
+G_M000_IG04:                ;; offset=0x0020
+            ldr     w3, [x0], #0x04
+            add     w1, w3, w1
+            sub     w2, w2, #1
+            cbnz    w2, G_M000_IG04
+ 
+G_M000_IG05:                ;; offset=0x0030
+            mov     w0, w1
+ 
+G_M000_IG06:                ;; offset=0x0034
+            ldp     fp, lr, [sp], #0x10
+            ret     lr
+ 
+; Total bytes of code 60
+; Assembly listing for method P:SumN(int[],int):int (Tier1)
+; Emitting BLENDED_CODE for generic ARM64 - Apple
+; Tier1 code
+; optimized code
+; optimized using Dynamic PGO
+; fp based frame
+; fully interruptible
+; with Dynamic PGO: fgCalledCount is 18
+
+G_M000_IG01:                ;; offset=0x0000
+            stp     fp, lr, [sp, #-0x10]!
+            mov     fp, sp
+ 
+G_M000_IG02:                ;; offset=0x0008
+            mov     w2, wzr
+            mov     w3, wzr
+            cmp     w1, #0
+            ble     G_M000_IG05
+ 
+G_M000_IG03:                ;; offset=0x0018
+            cbz     x0, G_M000_IG07
+            ldr     w4, [x0, #0x08]
+            cmp     w4, w1
+            blt     G_M000_IG07
+            add     x5, x0, #16
+            mov     x0, xzr
+            align   [4 bytes for IG04]
+            align   [4 bytes]
+            align   [4 bytes]
+            align   [4 bytes]
+ 
+G_M000_IG04:                ;; offset=0x0040
+            ldr     w4, [x5, x0]
+            add     w2, w4, w2
+            add     x0, x0, #4
+            sub     w1, w1, #1
+            cbnz    w1, G_M000_IG04
+ 
+G_M000_IG05:                ;; offset=0x0054
+            mov     w0, w2
+ 
+G_M000_IG06:                ;; offset=0x0058
+            ldp     fp, lr, [sp], #0x10
+            ret     lr
+ 
+G_M000_IG07:                ;; offset=0x0060
+            ldr     w4, [x0, #0x08]
+            add     x5, x0, #16
+ 
+G_M000_IG08:                ;; offset=0x0068
+            cmp     w3, w4
+            bhs     G_M000_IG09
+            ldr     w0, [x5, w3, UXTW #2]
+            add     w2, w0, w2
+            add     w3, w3, #1
+            cmp     w3, w1
+            blt     G_M000_IG08
+            b       G_M000_IG05
+ 
+G_M000_IG09:                ;; offset=0x0088
+            bl      CORINFO_HELP_RNGCHKFAIL
+            brk_unix #0
+ 
+; Total bytes of code 144
